@@ -2,9 +2,9 @@
   <div class="home">
     <div class="box">
       <div class="input-todo">
-        <input type="text" placeholder="接下去要做什么?" />
+        <input type="text" placeholder="接下去要做什么?" @keypress="addTask($event)" />
       </div>
-      <TodoList></TodoList>
+      <TodoList :list="list"></TodoList>
       <div class="menus">
         <div class="left">0 items left</div>
         <div class="menu">
@@ -19,18 +19,36 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 import TodoList from "@/components/TodoList.vue";
+import { defineComponent, watchEffect } from "vue";
 
-export default {
+export default defineComponent({
   name: "Home",
   components: {
-    // HelloWorld
     TodoList
+  },
+  setup() {
+    const list: Array<object> = [];
+    const addTask = (event: any) => {
+      const keyCode = event.keyCode;
+      if (keyCode == 13) {
+        list.push({
+          name: event.target.value,
+          complete: false
+        });
+      }
+    };
+    watchEffect(() => console.log(list));
+    // 暴露给模板
+    return {
+      addTask,
+      list
+    };
+    // return () => h('div', [count.value, object.foo])
   }
-};
+});
 </script>
 
 <style lang="less">
@@ -59,19 +77,19 @@ export default {
         font-size: 18px;
       }
       input::-webkit-input-placeholder {
-        color: #ccc;
+        color: #919392;
       }
       input::-moz-input-placeholder {
-        color: #ccc;
+        color: #919392;
       }
       input::-ms-input-placeholder {
-        color: #ccc;
+        color: #919392;
       }
     }
     .menus {
       display: flex;
-      height: 32px;
-      line-height: 32px;
+      height: 34px;
+      line-height: 34px;
       padding: 5px 15px;
       .left {
         width: 160px;

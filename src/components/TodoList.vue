@@ -29,35 +29,23 @@ import {
   reactive,
   onMounted,
   onUpdated,
-  onUnmounted
+  onUnmounted,
+  watchEffect
 } from "vue";
 
 export default defineComponent({
   name: "todo list",
   props: {
-    msg: String
+    list: Array
   },
   setup(props) {
-    // interface Data {
-    //   count: number;
-    //   object: object;
-    // }
+    console.log(props);
+    watchEffect(() => console.log(props.list));
     const count = ref(0);
     const object = reactive({ foo: "bar" });
     const increase = (): void => {
       count.value++;
     };
-    const list: Array<object> = [
-      {
-        name: "foo"
-      },
-      {
-        name: "bar"
-      },
-      {
-        name: "coo"
-      }
-    ];
     function test(x: number): string {
       console.log(x);
       return props.toString();
@@ -78,8 +66,7 @@ export default defineComponent({
     return {
       count,
       increase,
-      object,
-      list
+      object
     };
     // return () => h('div', [count.value, object.foo])
   }
@@ -106,10 +93,10 @@ export default defineComponent({
     }
     .task {
       flex: 1;
-      font-size: 20px;
+      font-size: 18px;
       text-align: left;
       padding-left: 12px;
-      line-height: 36px;
+      line-height: 38px;
     }
     .icon-delete {
       width: 22px;
